@@ -1,0 +1,40 @@
+<div class="container text-center mt-5 d-flex align-items-center justify-content-center">
+  <div class="card">
+    <div class="card-body">
+
+      <h5 class="card-title" *ngIf="id > 0;else cadastro">Atualizar Produto</h5>
+      <ng-template #cadastro>
+        <h5 class="card-title" @cadastro>Cadastrar Produto</h5>
+      </ng-template>
+      <form [formGroup]="form" method="post" class="text-start mt-5" (ngSubmit)="onSubmit()">
+        <div class="form-group m-3">
+          <label for="nome">Produto</label>
+          <input id="nome" formControlName="nome" class="form-control" placeholder="Informe o nome do produto..." />
+        </div>
+        <div class="form-group m-3">
+          <label for="quantidade">Quantidade</label>
+          <input type="number" id="quantidade" formControlName="quantidade" class="form-control"
+            placeholder="Informe a quantidade...">
+        </div>
+        <div class="form-group m-3">
+          <label for="categoria">Categoria</label>
+          <select class="form-select" id="categoria" placeholder="Selecione..." formControlName="categoria">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nome }}</option>
+          </select>
+        </div>
+        <div class="d-flex m-3">
+          <button *ngIf="id > 0;else cadastro" type="submit" class="btn btn-success">Atualizar</button>
+          <ng-template #cadastro>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+          </ng-template>
+          <button type="button" class="btn btn-danger ms-3" routerLink="/">Voltar</button>
+        </div>
+        <div *ngIf="cadastrado" class="text-success mt-1">Produto Cadastrado</div>
+        <div *ngIf="atualizado" class="text-success mt-1">Produto Atualizado</div>
+        <div *ngIf="form.invalid && form.touched" class="text-danger mt-1">
+          Favor preencher todos os campos.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

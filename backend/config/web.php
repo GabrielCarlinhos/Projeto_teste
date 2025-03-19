@@ -29,7 +29,6 @@ $config = [
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => '@app/mail',
-            // send all mails to a file by default.
             'useFileTransport' => true,
         ],
         'log' => [
@@ -42,14 +41,26 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
+        // Enable CORS filter here
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // Your custom URL rules
             ],
         ],
-        */
+
+        // CORS filter settings
+        'as cors' => [
+            'class' => 'yii\filters\Cors',
+            'cors' => [
+                'Access-Control-Allow-Origin' => ['http://localhost:4200'],  // The origin of your Angular app
+                'Access-Control-Allow-Methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
+                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization'],  // Headers you want to allow
+                'Access-Control-Allow-Credentials' => true, // Allow credentials like cookies
+            ],
+        ],
     ],
     'params' => $params,
 ];
@@ -59,15 +70,11 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 
